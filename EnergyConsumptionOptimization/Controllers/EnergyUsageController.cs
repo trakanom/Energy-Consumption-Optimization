@@ -6,7 +6,7 @@ using EnergyConsumptionOptimization.Services;
 namespace EnergyConsumptionOptimization.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class EnergyUsageController : ControllerBase
     {
         // Declare a private readonly variable to hold the instance of OptimizationService
