@@ -90,7 +90,25 @@ namespace EnergyConsumptionOptimization.Services
             // Save the changes to the database
             _context.SaveChanges();
         }
+        public bool DeleteEnergyUsage(int id)
+        {
+            // Find the energyUsage in the database by its ID
+            var energyUsage = _context.EnergyUsages.Find(id);
 
+            if (energyUsage == null)
+            {
+                // If the energyUsage is not found, return false
+                return false;
+            }
+
+            // Remove the energyUsage from the database
+            _context.EnergyUsages.Remove(energyUsage);
+            // Save the changes to the database
+            _context.SaveChanges();
+
+            // Return true if the deletion was successful
+            return true;
+        }
         // Implement your energy consumption optimization logic in this method
         public List<Recommendations> GetRecommendations()
         {
