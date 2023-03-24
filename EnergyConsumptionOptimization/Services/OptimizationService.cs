@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EnergyConsumptionOptimization.Models;
 using EnergyConsumptionOptimization.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace EnergyConsumptionOptimization.Services
 {
@@ -18,24 +20,24 @@ namespace EnergyConsumptionOptimization.Services
 
         // Implement the methods for handling devices
 
-        public List<Device> GetAllDevices()
+        public async Task<List<Device>> GetAllDevicesAsync()
         {
             // Fetch all devices from the database and return as a list
-            return _context.Devices.ToList();
+            return await _context.Devices.ToListAsync();
         }
 
-        public void AddDevice(Device device)
+        public async Task AddDevice(Device device)
         {
             // Add the new device to the database
-            _context.Devices.Add(device);
+            await _context.Devices.AddAsync(device);
             // Save the changes to the database
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public bool UpdateDevice(int id, Device updatedDevice)
+        public async Task<bool> UpdateDeviceAsync(int id, Device updatedDevice)
         {
             // Find the device in the database by its ID
-            var device = _context.Devices.Find(id);
+            var device = await _context.Devices.FindAsync(id);
 
             if (device == null)
             {
@@ -49,16 +51,16 @@ namespace EnergyConsumptionOptimization.Services
             device.PowerConsumption = updatedDevice.PowerConsumption;
 
             // Save the changes to the database
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             // Return true if the update was successful
             return true;
         }
 
-        public bool DeleteDevice(int id)
+        public async Task<bool> DeleteDeviceAsync(int id)
         {
             // Find the device in the database by its ID
-            var device = _context.Devices.Find(id);
+            var device = await _context.Devices.FindAsync(id);
 
             if (device == null)
             {
@@ -69,7 +71,7 @@ namespace EnergyConsumptionOptimization.Services
             // Remove the device from the database
             _context.Devices.Remove(device);
             // Save the changes to the database
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             // Return true if the deletion was successful
             return true;
@@ -77,23 +79,24 @@ namespace EnergyConsumptionOptimization.Services
 
         // Implement the methods for handling energy usage
 
-        public List<EnergyUsage> GetAllEnergyUsage()
+        public async Task<List<EnergyUsage>> GetAllEnergyUsageAsync()
         {
             // Fetch all energy usages from the database and return as a list
-            return _context.EnergyUsages.ToList();
+            return await _context.EnergyUsages.ToListAsync();
         }
 
-        public void AddEnergyUsage(EnergyUsage energyUsage)
+        public async Task AddEnergyUsageAsync(EnergyUsage energyUsage)
         {
             // Add the new energy usage to the database
-            _context.EnergyUsages.Add(energyUsage);
+            await _context.EnergyUsages.AddAsync(energyUsage);
             // Save the changes to the database
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public bool DeleteEnergyUsage(int id)
+
+        public async Task<bool> DeleteEnergyUsageAsync(int id)
         {
             // Find the energyUsage in the database by its ID
-            var energyUsage = _context.EnergyUsages.Find(id);
+            var energyUsage = await _context.EnergyUsages.FindAsync(id);
 
             if (energyUsage == null)
             {
@@ -104,26 +107,24 @@ namespace EnergyConsumptionOptimization.Services
             // Remove the energyUsage from the database
             _context.EnergyUsages.Remove(energyUsage);
             // Save the changes to the database
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             // Return true if the deletion was successful
             return true;
         }
+
         // Implement your energy consumption optimization logic in this method
-        public List<Recommendations> GetRecommendations()
+        public Task<List<Recommendation>> GetRecommendationAsync()
         {
             // Your optimization logic here
-            // Return a list of recommendations based on the energy usage data and devices
-            // For example:
-            // 1. Analyze the energy usage patterns
-            // 2. Find inefficient devices or usage times
-            // 3. Suggest replacing devices or adjusting usage times to optimize energy consumption
+            // ...
 
-            List<Recommendations> recommendations = new List<Recommendations>();
+            List<Recommendation> recommendations = new();
             // Add recommendations based on your logic
             // ...
 
-            return recommendations;
+            return Task.FromResult(recommendations);
         }
+
     }
 }

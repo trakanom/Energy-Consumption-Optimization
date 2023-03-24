@@ -20,23 +20,23 @@ namespace EnergyConsumptionOptimization.Controllers
 
         // Define a GET action method to fetch all energy usages
         [HttpGet]
-        public ActionResult<List<EnergyUsage>> GetAllEnergyUsage()
+        public async Task<ActionResult<List<EnergyUsage>>> GetAllEnergyUsage()
         {
             // Call the GetAllEnergyUsages method from the OptimizationService
             // Return the result as an ActionResult with the fetched list of energy usages
-            var allEnergyUsages = _optimizationService.GetAllEnergyUsage();
+            var allEnergyUsages = await _optimizationService.GetAllEnergyUsageAsync();
             return Ok(allEnergyUsages);
         }
 
         // Define a POST action method to add a new energy usage
         [HttpPost]
-        public ActionResult AddEnergyUsage([FromBody] EnergyUsage energyUsage)
+        public async Task<ActionResult> AddEnergyUsage([FromBody] EnergyUsage energyUsage)
         {
             // Check if the provided energy usage data is valid
             if (ModelState.IsValid)
             {
                 // Call the AddEnergyUsage method from the OptimizationService to add the new energy usage
-                _optimizationService.AddEnergyUsage(energyUsage);
+                await _optimizationService.AddEnergyUsageAsync(energyUsage);
                 // Return a 200 OK status if the operation is successful
                 return Ok();
             }
@@ -46,11 +46,11 @@ namespace EnergyConsumptionOptimization.Controllers
 
         // Define a DELETE action method to delete an energy usage by its ID
         [HttpDelete("{id}")]
-        public ActionResult DeleteEnergyUsage(int id)
+        public async Task<ActionResult> DeleteEnergyUsage(int id)
         {
             // Call the DeleteEnergyUsage method from the OptimizationService
             // Pass the ID of the energy usage to be deleted
-            var result = _optimizationService.DeleteEnergyUsage(id);
+            var result = await _optimizationService.DeleteEnergyUsageAsync(id);
 
             // Check if the energy usage was found and deleted successfully
             if ((bool)result)
@@ -64,11 +64,11 @@ namespace EnergyConsumptionOptimization.Controllers
 
         // Define a GET action method to fetch recommendations for energy usage optimization
         [HttpGet("recommendations")]
-        public async Task<ActionResult<List<Recommendations>>> GetRecommendations()
+        public async Task<ActionResult<List<Recommendation>>> GetRecommendations()
         {
             // Call the GetRecommendations method from the OptimizationService
             // Return the result as an ActionResult with the fetched list of optimized energy usages
-            var recommendations = _optimizationService.GetRecommendations();
+            var recommendations = await _optimizationService.GetRecommendationAsync();
             return recommendations;
         }
     }

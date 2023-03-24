@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using EnergyConsumptionOptimization.Models;
 using EnergyConsumptionOptimization.Services;
+using EnergyConsumptionOptimization.Data;
 
 namespace EnergyConsumptionOptimization.Controllers
 {
@@ -20,22 +21,22 @@ namespace EnergyConsumptionOptimization.Controllers
 
         // Define a GET action method to fetch all devices
         [HttpGet]
-        public ActionResult<List<Device>> GetAllDevices()
+        public async Task<ActionResult<List<Device>>> GetAllDevices()
         {
             // Call the GetAllDevices method from the OptimizationService
             // Return the result as an ActionResult with the fetched list of devices
-            return _optimizationService.GetAllDevices();
+            return await _optimizationService.GetAllDevicesAsync();
         }
 
         // Define a POST action method to add a new device
         [HttpPost]
-        public ActionResult AddDevice([FromBody] Device device)
+        public async Task<ActionResult> AddDevice([FromBody] Device device)
         {
             // Check if the provided device data is valid
             if (ModelState.IsValid)
             {
                 // Call the AddDevice method from the OptimizationService to add the new device
-                _optimizationService.AddDevice(device);
+                await _optimizationService.AddDevice(device);
                 // Return a 200 OK status if the operation is successful
                 return Ok();
             }
@@ -45,14 +46,14 @@ namespace EnergyConsumptionOptimization.Controllers
 
         // Define a PUT action method to update an existing device by its ID
         [HttpPut("{id}")]
-        public ActionResult UpdateDevice(int id, [FromBody] Device device)
+        public async Task<ActionResult> UpdateDevice(int id, [FromBody] Device device)
         {
             // Check if the provided device data is valid
             if (ModelState.IsValid)
             {
                 // Call the UpdateDevice method from the OptimizationService
                 // Pass the ID of the device to be updated and the updated device data
-                var result = _optimizationService.UpdateDevice(id, device);
+                var result = await _optimizationService.UpdateDeviceAsync(id, device);
 
                 // Check if the device was found and updated successfully
                 if ((bool)result)
@@ -67,11 +68,11 @@ namespace EnergyConsumptionOptimization.Controllers
 
         // Define a DELETE action method to delete a device by its ID
         [HttpDelete("{id}")]
-        public ActionResult DeleteDevice(int id)
+        public async Task<ActionResult> DeleteDevice(int id)
         {
             // Call the DeleteDevice method from the OptimizationService
             // Pass the ID of the device to be deleted
-            var result = _optimizationService.DeleteDevice(id);
+            var result = await _optimizationService.DeleteDeviceAsync(id);
 
             // Check if the device was found and deleted successfully
             if ((bool)result)
