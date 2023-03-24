@@ -1,59 +1,86 @@
-using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using EnergyConsumptionOptimization.Models;
+using EnergyConsumptionOptimization.Services;
 
 namespace EnergyConsumptionOptimization.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class DevicesController : ControllerBase
     {
-        // POST: api/devices
-        // Input: Device object
-        // Output: Created device record
-        // Purpose: Add a new device
+        // Declare a private readonly variable to hold the instance of OptimizationService
+        private readonly OptimizationService _optimizationService;
+
+        // Inject the OptimizationService instance through the constructor
+        public DevicesController(OptimizationService optimizationService)
+        {
+            _optimizationService = optimizationService;
+        }
+
+        // Define a GET action method to fetch all devices
+        [HttpGet]
+        public ActionResult<List<Device>> GetAllDevices()
+        {
+            // Call the GetAllDevices method from the OptimizationService
+            // Return the result as an ActionResult with the fetched list of devices
+            return _optimizationService.GetAllDevices();
+        }
+
+        // Define a POST action method to add a new device
         [HttpPost]
-        public ActionResult<Device> AddDevice(Device device)
+        public ActionResult AddDevice([FromBody] Device device)
         {
-            // Implement add device logic
+            // Check if the provided device data is valid
             if (ModelState.IsValid)
             {
-                // Add the device
-                return Ok(); // or another appropriate response
+                // Call the AddDevice method from the OptimizationService to add the new device
+                _optimizationService.AddDevice(device);
+                // Return a 200 OK status if the operation is successful
+                return Ok();
             }
+            // Return a 400 Bad Request status if the provided data is not valid
             return BadRequest(ModelState);
         }
 
-        // PUT: api/devices/{id}
-        // Input: Device ID, updated Device object
-        // Output: Updated device record
-        // Purpose: Update a device by ID
+        // Define a PUT action method to update an existing device by its ID
         [HttpPut("{id}")]
-        public ActionResult<Device> UpdateDevice(int id, Device updatedDevice)
+        public ActionResult UpdateDevice(int id, [FromBody] Device device)
         {
-            // Implement update device logic
+            // Check if the provided device data is valid
             if (ModelState.IsValid)
             {
-                // Add the device
-                return Ok(); // or another appropriate response
+                // Call the UpdateDevice method from the OptimizationService
+                // Pass the ID of the device to be updated and the updated device data
+                var result = _optimizationService.UpdateDevice(id, device);
+
+                // Check if the device was found and updated successfully
+                if ((bool)result)
+                {
+                    // Return a 200 OK status if the operation is successful
+                    return Ok();
+                }
             }
+            // Return a 400 Bad Request status if the provided data is not valid
             return BadRequest(ModelState);
         }
 
-        // DELETE: api/devices/{id}
-        // Input: Device ID
-        // Output: None
-        // Purpose: Delete a device by ID
+        // Define a DELETE action method to delete a device by its ID
         [HttpDelete("{id}")]
-        public IActionResult DeleteDevice(int id)
+        public ActionResult DeleteDevice(int id)
         {
-            // Implement delete device logic
-            if (ModelState.IsValid)
+            // Call the DeleteDevice method from the OptimizationService
+            // Pass the ID of the device to be deleted
+            var result = _optimizationService.DeleteDevice(id);
+
+            // Check if the device was found and deleted successfully
+            if ((bool)result)
             {
-                // Add the device
-                return Ok(); // or another appropriate response
+                // Return a 200 OK status if the operation is successful
+                return Ok();
             }
-            return BadRequest(ModelState);
+            // Return a 404 Not Found status if the device is not found
+            return NotFound();
         }
     }
 }
