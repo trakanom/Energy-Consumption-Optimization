@@ -24,7 +24,8 @@ namespace EnergyConsumptionOptimization.Controllers
         {
             // Call the GetAllEnergyUsages method from the OptimizationService
             // Return the result as an ActionResult with the fetched list of energy usages
-            return _optimizationService.GetAllEnergyUsage();
+            var allEnergyUsages = _optimizationService.GetAllEnergyUsage();
+            return Ok(allEnergyUsages);
         }
 
         // Define a POST action method to add a new energy usage
@@ -67,7 +68,8 @@ namespace EnergyConsumptionOptimization.Controllers
         {
             // Call the GetRecommendations method from the OptimizationService
             // Return the result as an ActionResult with the fetched list of optimized energy usages
-            return _optimizationService.GetRecommendations();
+            var recommendations = _optimizationService.GetRecommendations();
+            return recommendations;
         }
     }
 }
