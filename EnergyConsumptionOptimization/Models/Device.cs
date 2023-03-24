@@ -20,6 +20,13 @@ namespace EnergyConsumptionOptimization.Models
         [Required]
         public double PowerConsumption { get; set; }
 
+        // Constructor
+        public Device()
+        {
+            Name = string.Empty;
+            Type = string.Empty;
+        }
+
         // Additional properties can be added as needed
         // (e.g., manufacturer, model number, installation date, etc.)
     }
