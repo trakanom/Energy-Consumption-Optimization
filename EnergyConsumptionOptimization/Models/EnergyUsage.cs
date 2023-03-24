@@ -21,6 +21,12 @@ namespace EnergyConsumptionOptimization.Models
         [Required]
         public double Duration { get; set; }
 
+        // Constructor
+        public EnergyUsage()
+        {
+            Device = new Device();
+        }
+
         // Additional properties can be added as needed
         // (e.g., location, user ID, etc.)
     }
