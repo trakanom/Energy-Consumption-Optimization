@@ -24,7 +24,7 @@ namespace EnergyConsumptionOptimization.Controllers
         {
             // Call the GetAllEnergyUsages method from the OptimizationService
             // Return the result as an ActionResult with the fetched list of energy usages
-            return _optimizationService.GetAllEnergyUsages();
+            return _optimizationService.GetAllEnergyUsage();
         }
 
         // Define a POST action method to add a new energy usage
@@ -63,7 +63,7 @@ namespace EnergyConsumptionOptimization.Controllers
 
         // Define a GET action method to fetch recommendations for energy usage optimization
         [HttpGet("recommendations")]
-        public ActionResult<List<EnergyUsage>> GetRecommendations()
+        public async Task<ActionResult<List<Recommendations>>> GetRecommendations()
         {
             // Call the GetRecommendations method from the OptimizationService
             // Return the result as an ActionResult with the fetched list of optimized energy usages
