@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EnergyConsumptionOptimization.Services;
+using EnergyConsumptionOptimization.Models;
 using EnergyConsumptionOptimization.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,9 +30,27 @@ namespace EnergyConsumptionOptimization
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
         {
-            // Configure code
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EnergyConsumptionOptimization v1"));
+            }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
+
+            // Migrate any database changes on startup (if necessary)
+            dbContext.Database.Migrate();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }
