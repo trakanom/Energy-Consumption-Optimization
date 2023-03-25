@@ -49,6 +49,8 @@ namespace EnergyConsumptionOptimization
 
             app.UseAuthorization();
 
+            app.UseHttpsRedirection(); //for prod
+
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
