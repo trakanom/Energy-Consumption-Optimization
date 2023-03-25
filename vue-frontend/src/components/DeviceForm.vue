@@ -45,9 +45,9 @@ export default {
             try {
                 let response;
                 if (this.device.id) {
-                    response = await axios.put(`http://localhost:5000/api/devices/${this.device.id}`, this.device);
+                    response = await axios.put(`http://localhost:5069/api/devices/${this.device.id}`, this.device);
                 } else {
-                    response = await axios.post('http://localhost:5000/api/devices', this.device);
+                    response = await axios.post('http://localhost:5069/api/devices', this.device);
                 }
                 this.$emit('submit', response.data);
             } catch (error) {
@@ -71,7 +71,7 @@ export default {
 
         async deleteDevice(deviceId) {
             try {
-                await axios.delete(`http://localhost:5000/api/devices/${deviceId}`);
+                await axios.delete(`http://localhost:5069/api/devices/${deviceId}`);
                 this.devices = this.devices.filter(device => device.id !== deviceId);
             } catch (error) {
                 console.error('Error deleting device:', error);

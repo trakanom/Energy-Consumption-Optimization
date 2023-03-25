@@ -37,7 +37,7 @@ export default {
     methods: {
         async fetchDevices() {
             try {
-                const response = await axios.get('http://localhost:5000/api/devices');
+                const response = await axios.get('http://localhost:5069/api/devices');
                 this.devices = response.data;
             } catch (error) {
                 console.error('Error fetching devices:', error);
@@ -59,7 +59,7 @@ export default {
         },
         async deleteDevice(deviceId) {
             try {
-                await axios.delete(`http://localhost:5000/api/devices/${deviceId}`);
+                await axios.delete(`http://localhost:5069/api/devices/${deviceId}`);
                 this.devices = this.devices.filter(device => device.id !== deviceId);
             } catch (error) {
                 console.error('Error deleting device:', error);
