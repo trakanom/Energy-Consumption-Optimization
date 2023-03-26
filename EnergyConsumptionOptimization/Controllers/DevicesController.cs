@@ -7,7 +7,7 @@ using EnergyConsumptionOptimization.Data;
 namespace EnergyConsumptionOptimization.Controllers
 {
     [ApiController]
-    [Route("api/device")]
+    [Route("api/devices")]
     public class DevicesController : ControllerBase
     {
         // Declare a private readonly variable to hold the instance of OptimizationService
