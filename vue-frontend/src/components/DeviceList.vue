@@ -72,8 +72,19 @@ export default {
         closeForm() {
             this.formVisible = false;
         },
-        // Add other methods when you're ready to implement them
+        async addDevice(device) {
+            try {
+                const response = await axios.post(`http://localhost:5069/api/devices`, device);
+                this.devices.push(response.data);
+                this.closeForm();
+            } catch (error) {
+                console.error('Error adding device:', error);
+            }
+        }
     },
+    created() {
+        this.fetchDevices();
+    }
 };
 
 </script>
