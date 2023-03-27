@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  frontend:
+    build: ./vue-frontend
+    ports:
+      - "8080:8080"
+    environment:
+      - VUE_APP_API_URL=http://backend:5069
+
+  backend:
+    build: ./EnergyConsumptionOptimization
+    ports:
+      - "5069:5069"
