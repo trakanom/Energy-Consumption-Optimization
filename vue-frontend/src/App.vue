@@ -14,6 +14,8 @@
 import DeviceList from "./components/DeviceList.vue";
 import DeviceForm from "./components/DeviceForm.vue";
 import axios from "axios";
+import { apiUrl } from "./api";
+
 
 export default {
   name: "App",
