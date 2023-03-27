@@ -50,12 +50,12 @@ namespace EnergyConsumptionOptimization
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EnergyConsumptionOptimization v1"));
-                connectionString = Environment.GetEnvironmentVariable("DEVELOPMENT_CONNECTION_STRING");
+                connectionString = Environment.GetEnvironmentVariable("DEVELOPMENT_CONNECTION_STRING") ?? throw new ArgumentException("ERROR: Developer connection string not found");
             }
             else
             {
-                connectionString = Environment.GetEnvironmentVariable("PRODUCTION_CONNECTION_STRING");
-                app.UseExceptionHandler("/error");
+                connectionString = Environment.GetEnvironmentVariable("PRODUCTION_CONNECTION_STRING") ?? throw new ArgumentException("ERROR: Production connection string not found");
+                // app.UseExceptionHandler("/error");
             }
             app.Use(async (context, next) =>
             {

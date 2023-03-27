@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  frontend:
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./vue-frontend:/vue-frontend
+    command: [ "npm", "run", "serve" ]
+
+  backend:
+    build:
+      context: ./EnergyConsumptionOptimization
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ./EnergyConsumptionOptimization:/EnergyConsumptionOptimization
+    entrypoint: [ "dotnet", "watch", "run", "--urls", "http://*:5069" ]
