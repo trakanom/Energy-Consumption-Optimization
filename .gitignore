@@ -6,6 +6,10 @@
 #dev notes
 notes.md
 
+#env
+.env
+.env.production
+
 # User-specific files
 *.rsuser
 *.suo
