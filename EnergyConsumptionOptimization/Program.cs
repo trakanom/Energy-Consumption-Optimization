@@ -10,7 +10,8 @@ using Microsoft.Extensions.Hosting;
 using EnergyConsumptionOptimization.Data;
 using EnergyConsumptionOptimization.Services;
 using Microsoft.EntityFrameworkCore;
-
+using DotNetEnv;
+Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

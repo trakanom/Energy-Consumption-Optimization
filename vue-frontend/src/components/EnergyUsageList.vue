@@ -11,6 +11,15 @@
 
 <script>
 import axios from 'axios';
+axios.get(`${apiUrl}/devices`)
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
+
 
 export default {
     data() {
@@ -20,7 +29,7 @@ export default {
     },
     async created() {
         try {
-            const response = await axios.get('https://localhost:5069/api/energyusage'); //replace the url with the right port and endpoint
+            const response = await axios.get(`${apiUrl}/energyusage`); //replace the url with the right port and endpoint
             this.energyUsage = response.data;
         } catch (error) {
             console.error('Error fetching energy usage:', error);

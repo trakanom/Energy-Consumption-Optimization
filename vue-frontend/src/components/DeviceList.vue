@@ -20,6 +20,18 @@ import DeviceForm from './DeviceForm.vue';
 import DeviceCard from './DeviceCard.vue';
 import axios from 'axios';
 
+import { apiUrl } from '@/api';
+
+// Use apiUrl as the base URL for your API calls
+axios.get(`${apiUrl}/devices`)
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
+
 
 export default {
     name: 'DeviceList',
@@ -37,7 +49,7 @@ export default {
     methods: {
         async fetchDevices() {
             try {
-                const response = await axios.get('http://localhost:5069/api/devices');
+                const response = await axios.get(`${apiUrl}/devices`);
                 this.devices = response.data;
             } catch (error) {
                 console.error('Error fetching devices:', error);
@@ -59,7 +71,7 @@ export default {
         },
         async deleteDevice(deviceId) {
             try {
-                await axios.delete(`http://localhost:5069/api/devices/${deviceId}`);
+                await axios.delete(`${apiUrl}/devices/${deviceId}`);
                 this.devices = this.devices.filter(device => device.id !== deviceId);
             } catch (error) {
                 console.error('Error deleting device:', error);
@@ -74,7 +86,7 @@ export default {
         },
         async addDevice(device) {
             try {
-                const response = await axios.post(`http://localhost:5069/api/devices`, device);
+                const response = await axios.post(`${apiUrl}/devices`, device);
                 this.devices.push(response.data);
                 this.closeForm();
             } catch (error) {

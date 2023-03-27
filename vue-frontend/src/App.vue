@@ -35,7 +35,7 @@ export default {
   methods: {
     async fetchDevices() {
       try {
-        const response = await axios.get("http://localhost:5069/api/devices");
+        const response = await axios.get(`${apiUrl}/devices`);
         this.devices = response.data;
       } catch (error) {
         console.error("Error fetching devices:", error);
@@ -53,7 +53,7 @@ export default {
     async addDevice(device) {
       try {
         const response = await axios.post(
-          "http://localhost:5069/api/devices",
+          `${apiUrl}/devices`,
           device
         );
         this.devices.push(response.data);
@@ -65,7 +65,7 @@ export default {
     async updateDevice(device) {
       try {
         const response = await axios.put(
-          `http://localhost:5069/api/devices/${device.id}`,
+          `${apiUrl}/devices/${device.id}`,
           device
         );
         const index = this.devices.findIndex(
@@ -80,7 +80,7 @@ export default {
     async deleteDevice() {
       try {
         await axios.delete(
-          `http://localhost:5069/api/devices/${this.selectedDevice.id}`
+          `${apiUrl}/devices/${this.selectedDevice.id}`
         );
         this.devices = this.devices.filter(
           (d) => d.id !== this.selectedDevice.id

@@ -30,7 +30,17 @@ data() {
   
 <script>
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:5069'; //Update this when we have the url setup
+import { apiUrl } from '@/api';
+
+// Use apiUrl as the base URL for your API calls
+axios.get(`${apiUrl}/devices`)
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
 export default {
 
     props: {
@@ -45,9 +55,9 @@ export default {
             try {
                 let response;
                 if (this.device.id) {
-                    response = await axios.put(`http://localhost:5069/api/devices/${this.device.id}`, this.device);
+                    response = await axios.put(`${apiUrl}/devices/${this.device.id}`, this.device);
                 } else {
-                    response = await axios.post('http://localhost:5069/api/devices', this.device);
+                    response = await axios.post(`${apiUrl}/devices`, this.device);
                 }
                 this.$emit('submit', response.data);
             } catch (error) {
@@ -71,7 +81,7 @@ export default {
 
         async deleteDevice(deviceId) {
             try {
-                await axios.delete(`http://localhost:5069/api/devices/${deviceId}`);
+                await axios.delete(`${apiUrl}/devices/${deviceId}`);
                 this.devices = this.devices.filter(device => device.id !== deviceId);
             } catch (error) {
                 console.error('Error deleting device:', error);
