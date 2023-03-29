@@ -16,5 +16,9 @@ COPY . .
 # Expose the port the app will run on
 EXPOSE 8080
 
-# Run the app
-CMD ["npm", "run", "serve"]
+# Set NODE_ENV to development by default
+ARG NODE_ENV=development
+ENV NODE_ENV $NODE_ENV
+
+# Run the app depending on the environment
+CMD [ "sh", "-c", "npm run ${NODE_ENV}" ]

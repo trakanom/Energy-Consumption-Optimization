@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EnergyConsumptionOptimization.Services;
 using EnergyConsumptionOptimization.Models;
 using EnergyConsumptionOptimization.Data;
+
 using System.Net;
 
 namespace EnergyConsumptionOptimization
@@ -24,10 +25,24 @@ namespace EnergyConsumptionOptimization
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            // Conditionally configure the DbContext based on the environment
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlite(Configuration.GetConnectionString("DevelopmentConnection")));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+            }
+
             services.AddScoped<OptimizationService>();
             services.AddControllers();
+
+            // Register the GenericRepository
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowVueApp",
@@ -38,8 +53,8 @@ namespace EnergyConsumptionOptimization
                             .AllowAnyMethod();
                     });
             });
-
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
